@@ -13,7 +13,7 @@ import java.util.concurrent.Executors;
  */
 public class TestIndexMerge {
 
-    public static final String URL = "jdbc:mysql://127.0.0.1:3306/esop_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai";
+    public static final String URL = "jdbc:mysql://127.0.0.1:3306/dead_lock_test?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai";
     public static final String USER = "root";
     public static final String PASSWORD = "123456";
 
@@ -27,7 +27,8 @@ public class TestIndexMerge {
             executorService.submit(() -> {
                 try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
                     for (int j = 0; j < 10000; j++) {
-                        conn.createStatement().executeUpdate("update store set store = store - 1 WHERE sku_code='" + skuCode + "' and ws_code ='" + wsCode +"';");
+                        conn.createStatement()
+                                .executeUpdate("update store set store = store - 1 WHERE sku_code='" + skuCode + "' and ws_code ='" + wsCode + "';");
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
