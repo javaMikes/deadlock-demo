@@ -3,8 +3,7 @@ package com.example.demo;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @desc
@@ -19,7 +18,9 @@ public class TestIndexMerge {
 
     public static void main(String[] args) throws ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
-        ExecutorService executorService = Executors.newFixedThreadPool(300);
+        ExecutorService executorService = new ThreadPoolExecutor(300, 300,
+                0L, TimeUnit.MILLISECONDS,
+                new LinkedBlockingQueue<>());
         for (int i = 0; i <= 100; i++) {
             final int index = i;
             final String wsCode = "ws_" + i;
